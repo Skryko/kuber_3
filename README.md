@@ -1,49 +1,3 @@
-Да, держи готовый README.md. Я заложил понятные названия скриншотов. Создай папку screenshots в репозитории и положи туда скрины с такими именами.
-
-Домашнее задание к занятию «Сетевое взаимодействие в Kubernetes»
-
-Описание
-
-В рамках домашнего задания была выполнена настройка сетевого взаимодействия в Kubernetes.
-
-Были реализованы два варианта доступа к приложениям:
-
-* доступ внутри кластера через Service типа ClusterIP;
-* доступ снаружи кластера через Service типа NodePort;
-* маршрутизация HTTP-запросов через Ingress.
-
-Работа выполнялась в Minikube.
-
-⸻
-
-Используемые инструменты
-
-* Kubernetes / Minikube
-* kubectl
-* Docker-образы:
-    * nginx
-    * wbitt/network-multitool
-
-⸻
-
-Задание 1. Настройка Service: ClusterIP и NodePort
-
-Цель
-
-Развернуть приложение с двумя контейнерами:
-
-* nginx на порту 80;
-* multitool на порту 8080.
-
-Количество реплик: 3.
-
-После этого необходимо было настроить доступ:
-
-* внутри кластера через ClusterIP;
-* снаружи кластера через NodePort.
-
-⸻
-
 Манифест Deployment
 
 Файл: deployment-multi-container.yaml
@@ -119,6 +73,8 @@ kubectl get svc
 
 kubectl run test-pod --image=wbitt/network-multitool --rm -it -- sh
 
+![photo](1-1.png)
+
 Проверка доступа к nginx:
 
 curl multi-container-clusterip:9001
@@ -162,6 +118,7 @@ kubectl get svc
 
 В выводе видно, что Service nginx-nodeport доступен на порту 30080.
 
+![photo](1-2.png)
 ⸻
 
 Проверка доступа через NodePort
@@ -210,6 +167,7 @@ kubectl get pods -n ingress-nginx
 
 Ingress-контроллер находится в статусе Running.
 
+![photo](2-1.png)
 ⸻
 
 Deployment frontend
@@ -269,6 +227,8 @@ spec:
 
 kubectl get pods
 
+![photo](2-2.png)
+
 ⸻
 
 Service для frontend
@@ -313,6 +273,8 @@ spec:
 
 kubectl get svc
 
+![photo](2-3.png)
+
 ⸻
 
 Ingress
@@ -356,6 +318,10 @@ http://192.168.49.2/api   → backend-service  → backend Pod  → multitool
 
 kubectl get ingress
 
+![photo](2-4.png)
+
+![photo](2-4.2.png)
+
 ⸻
 
 Проверка доступа к frontend через Ingress
@@ -376,6 +342,7 @@ curl http://$(minikube ip)/api
 
 В результате был получен ответ от backend-приложения multitool.
 
+![photo](2-5.png)
 ⸻
 
 Итог
